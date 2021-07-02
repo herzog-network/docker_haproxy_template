@@ -1,0 +1,9 @@
+FROM sandbox/netcup_letsencrypt AS acme
+FROM haproxy:lts
+COPY --from=acme /root/.acme.sh/cert.pem /usr/local/etc/haproxy/cert.pem
+COPY conf/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg
+
+# # Use this configuration for local stored certificates
+# FROM haproxy:lts
+# COPY localpath/cert.pem /usr/local/etc/haproxy/cert.pem
+# COPY conf/haproxy.cfg /usr/local/etc/haproxy/haproxy.cfg

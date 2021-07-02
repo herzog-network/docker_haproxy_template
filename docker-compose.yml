@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  httpd:
+    container_name: httpd
+    build:
+      context: .
+      dockerfile: ./dockerfile/httpd
+    image: sandbox/httpd:0.1
+    expose:
+      - 80
+
+  httpd2:
+    container_name: httpd2
+    build:
+      context: .
+      dockerfile: ./dockerfile/httpd
+    image: sandbox/httpd:0.1
+    expose:
+      - 80
+
+  haproxy:
+    container_name: haproxy
+    build:
+      context: .
+      dockerfile: ./dockerfile/haproxy
+    image: sandbox/haproxy:0.1
+    links:
+      - httpd
+      - httpd2
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
